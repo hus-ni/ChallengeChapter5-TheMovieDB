@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Challenge Chapter 5</string>
-    
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="register_text_loginPage">Dont have account? <b>Register</b></string>
+    <string name="register_text_loginPage">Don\'t have account? <b>Register</b></string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_btnLogin">Login</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_re_type_password">Re-type Password</string>
+    <string name="hint_btnRegister">Register</string>
+    <string name="welcome_text">Hello, %s</string>
 </resources>
