@@ -19,7 +19,10 @@ interface LoginDao {
 
     //get user data on profile page
     @Query("Select * From Login Where email = :email")
-    fun getProfile(email: String): List<Login>
+    fun getProfile(email: String): Login
+
+    @Query("Select name From Login Where email = :email")
+    fun getName(email: String): String
 
     //update
     //delete

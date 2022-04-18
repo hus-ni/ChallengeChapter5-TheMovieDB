@@ -31,6 +31,10 @@ class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
         loginDao.getProfile(email)
     }
 
+    fun getUserName(email: String): String {
+       return loginDao.getName(email)
+    }
+
     fun isInputEmpty(
         name: String,
         email: String,

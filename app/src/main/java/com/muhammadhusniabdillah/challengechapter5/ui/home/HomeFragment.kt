@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.muhammadhusniabdillah.challengechapter5.R
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var sharedPref: Helper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,12 +28,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnProfile.setOnClickListener{
-            toProfile()
+        sharedPref = Helper(requireContext())
+
+        binding.apply {
+            tvWelcome.text = getString(R.string.welcome_text,sharedPref.getName(Constant.RECENT_USER))
+            btnProfile.setOnClickListener {
+                toProfile()
+            }
         }
     }
 
-    fun toProfile() {
+    private fun toProfile() {
         findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
     }
 

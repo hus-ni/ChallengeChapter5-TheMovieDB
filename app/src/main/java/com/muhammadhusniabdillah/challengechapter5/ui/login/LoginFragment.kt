@@ -1,7 +1,6 @@
 package com.muhammadhusniabdillah.challengechapter5.ui.login
 
 import android.os.Bundle
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,8 @@ import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentLoginBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -27,6 +28,7 @@ class LoginFragment : Fragment() {
         )
     }
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var sharedPref: Helper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,17 +42,19 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnLogin.setOnClickListener {
-            toHome()
-        }
+        sharedPref = Helper(requireContext())
 
-        binding.tvOrOptions.setOnClickListener {
-            toRegister()
+        binding.apply {
+            btnLogin.setOnClickListener { toHome() }
+            tvOrOptions.setOnClickListener { toRegister() }
         }
     }
 
-    private fun toRegister() {
-        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+    override fun onStart() {
+        super.onStart()
+        if (sharedPref.getLoginStatus(Constant.IS_LOGIN)) {
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
     }
 
     private fun toHome() {
@@ -62,9 +66,10 @@ class LoginFragment : Fragment() {
                     binding.etPassword.text.toString()
                 )
                 if (check) {
+                    val name = viewModel.getUserName(binding.etEmail.text.toString())
                     activity?.runOnUiThread {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                        //shared preferences editor here
+                        saveSession(name, check)
                     }
                 } else {
                     activity?.runOnUiThread {
@@ -81,10 +86,19 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun toRegister() {
+        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+    }
+
     private fun blankInputCheck(): Boolean {
         return viewModel.isInputEmpty(
             binding.etEmail.text.toString(),
             binding.etPassword.text.toString()
         )
+    }
+
+    private fun saveSession(name: String, session: Boolean) {
+        sharedPref.putName(Constant.RECENT_USER, name)
+        sharedPref.putLoginStatus(Constant.IS_LOGIN, session)
     }
 }

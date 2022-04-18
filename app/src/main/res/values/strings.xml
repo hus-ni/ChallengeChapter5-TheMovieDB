@@ -10,4 +10,5 @@
     <string name="hint_btnRegister">Register</string>
     <string name="welcome_text">Hello, %s</string>
     <string name="error_password_confirm">Password does not match!</string>
+    <string name="hint_btnLogout">Logout</string>
 </resources>
