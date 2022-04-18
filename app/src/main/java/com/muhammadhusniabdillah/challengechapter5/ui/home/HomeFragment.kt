@@ -10,7 +10,7 @@ import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
-    private var binding: FragmentHomeBinding? = null
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,8 +24,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
-            homeFragment = this@HomeFragment
+        binding.btnProfile.setOnClickListener{
+            toProfile()
         }
     }
 

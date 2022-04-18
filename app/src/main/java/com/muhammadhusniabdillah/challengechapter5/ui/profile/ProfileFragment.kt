@@ -20,11 +20,4 @@ class ProfileFragment : Fragment() {
         return profileBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding?.apply {
-            profileFragment = this@ProfileFragment
-        }
-    }
 }

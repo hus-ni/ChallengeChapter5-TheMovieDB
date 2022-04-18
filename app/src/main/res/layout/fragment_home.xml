@@ -1,74 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
-
-    <data>
-
-        <variable
-            name="homeFragment"
-            type="com.muhammadhusniabdillah.challengechapter5.ui.home.HomeFragment" />
-    </data>
-
+    <!--top part-->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_part"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/login_background"
+        app:layout_constraintBottom_toTopOf="@id/guide_topAndBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--top part-->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/top_part"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="6dp"
-            android:background="@color/login_background"
-            app:layout_constraintBottom_toTopOf="@id/guide_topAndBottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_welcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="@string/welcome_text"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/btn_profile"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginEnd="24dp"
-                android:onClick="@{() -> homeFragment.toProfile()}"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_user"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_topAndBottom"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.12" />
-
-        <!--temp recycler view part-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="6dp"
-            android:background="@color/black"
+            android:layout_marginStart="24dp"
+            android:text="@string/welcome_text"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guide_topAndBottom"
-            tools:text="TEMPORARY" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btn_profile"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="24dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_user"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_topAndBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <!--temp recycler view part-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guide_topAndBottom"
+        tools:text="TEMPORARY" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
