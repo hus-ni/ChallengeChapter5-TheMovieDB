@@ -26,6 +26,14 @@ class Helper(context: Context) {
         return sharedPref.getBoolean(key, false)
     }
 
+    fun putEmail(key: String, value: String) {
+        editor.putString(key, value).apply()
+    }
+
+    fun getEmail(key: String): String? {
+        return sharedPref.getString(key, null)
+    }
+
     fun clear() {
         editor.clear().apply()
     }

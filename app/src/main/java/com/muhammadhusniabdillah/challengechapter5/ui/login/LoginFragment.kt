@@ -69,7 +69,7 @@ class LoginFragment : Fragment() {
                     val name = viewModel.getUserName(binding.etEmail.text.toString())
                     activity?.runOnUiThread {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                        saveSession(name, check)
+                        saveSession(name, binding.etEmail.text.toString(), check)
                     }
                 } else {
                     activity?.runOnUiThread {
@@ -97,8 +97,9 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun saveSession(name: String, session: Boolean) {
+    private fun saveSession(name: String, email: String, session: Boolean) {
         sharedPref.putName(Constant.RECENT_USER, name)
+        sharedPref.putEmail(Constant.EMAIL_USER, email)
         sharedPref.putLoginStatus(Constant.IS_LOGIN, session)
     }
 }

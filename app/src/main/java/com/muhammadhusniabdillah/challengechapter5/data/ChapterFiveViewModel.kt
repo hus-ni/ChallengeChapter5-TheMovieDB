@@ -27,8 +27,8 @@ class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
         return loginDao.getUser(email, password)
     }
 
-    fun getUserProfile(email: String) {
-        loginDao.getProfile(email)
+    fun getUserProfile(email: String?): Login {
+        return loginDao.getProfile(email)
     }
 
     fun getUserName(email: String): String {
