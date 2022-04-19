@@ -10,13 +10,6 @@ class Helper(context: Context) {
         context.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = sharedPref.edit()
 
-    fun putName(key: String, value: String) {
-        editor.putString(key, value).apply()
-    }
-
-    fun getName(key: String): String? {
-        return sharedPref.getString(key, null)
-    }
 
     fun putLoginStatus(key: String, value: Boolean) {
         editor.putBoolean(key, value).apply()

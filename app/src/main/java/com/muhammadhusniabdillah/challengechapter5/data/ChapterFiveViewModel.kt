@@ -8,9 +8,18 @@ import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
 class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
 
     // register
-    fun addUserProfile(name: String, email: String, password: String) {
+    fun userProfile(name: String, email: String, password: String) {
         val data = dataEntry(name, email, password)
         insertToDatabase(data)
+    }
+
+    fun userProfile(id: Int,name: String, email: String, password: String): Int {
+        val data = dataEntry(id, name, email, password)
+        return updateData(data)
+    }
+
+    private fun dataEntry(id: Int, name: String, email: String, password: String): Login {
+        return Login(id, name, email, password)
     }
 
     private fun dataEntry(name: String, email: String, password: String): Login {
@@ -33,6 +42,10 @@ class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
 
     fun getUserName(email: String): String {
        return loginDao.getName(email)
+    }
+
+    private fun updateData(data: Login): Int {
+       return loginDao.updateData(data)
     }
 
     fun isInputEmpty(

@@ -1,9 +1,6 @@
 package com.muhammadhusniabdillah.challengechapter5.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
 
 @Dao
@@ -25,5 +22,7 @@ interface LoginDao {
     fun getName(email: String): String
 
     //update
+    @Update
+    fun updateData(updatedData: Login): Int
     //delete
 }

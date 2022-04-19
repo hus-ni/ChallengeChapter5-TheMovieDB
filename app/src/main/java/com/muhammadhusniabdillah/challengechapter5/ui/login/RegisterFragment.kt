@@ -7,17 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentRegisterBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@DelicateCoroutinesApi
 class RegisterFragment : Fragment() {
 
     private val viewModel: ChapterFiveViewModel by viewModels {
@@ -47,8 +46,8 @@ class RegisterFragment : Fragment() {
     private fun toLogin() {
         if (blankInputCheck()) {
             if (passwordConfirmCheck()) {
-                GlobalScope.launch {
-                    viewModel.addUserProfile(
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.userProfile(
                         binding.etRegisterName.text.toString(),
                         binding.etRegisterEmail.text.toString(),
                         binding.etRegisterPassword.text.toString()

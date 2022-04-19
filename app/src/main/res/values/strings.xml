@@ -11,4 +11,5 @@
     <string name="welcome_text">Hello, %s</string>
     <string name="error_password_confirm">Password does not match!</string>
     <string name="hint_btnLogout">Logout</string>
+    <string name="hint_btn_update">Update</string>
 </resources>

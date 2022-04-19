@@ -52,8 +52,22 @@
             app:enterAnim="@android:anim/fade_in"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.muhammadhusniabdillah.challengechapter5.ui.profile.UpdateProfileFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/fragment_update_profile" >
+        <action
+            android:id="@+id/action_updateProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"/>
         <argument
-            android:name="data"
+            android:name="data2"
             app:argType="com.muhammadhusniabdillah.challengechapter5.data.entity.Login"
             app:nullable="true" />
     </fragment>

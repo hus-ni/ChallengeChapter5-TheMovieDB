@@ -6,17 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.muhammadhusniabdillah.challengechapter5.R
+import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
+import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
+import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
 import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentProfileBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
+    private val viewModel: ChapterFiveViewModel by viewModels {
+        ChapterFiveViewModelFactory(
+            (activity?.application as ChapterFiveApplication).database.daoLogin()
+        )
+    }
     private lateinit var binding: FragmentProfileBinding
     private lateinit var sharedPref: Helper
-    private val args: ProfileFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,15 +44,32 @@ class ProfileFragment : Fragment() {
         sharedPref = Helper(requireContext())
 
         binding.apply {
+            btnToUpdate.setOnClickListener { toUpdateWithData() }
             btnLogout.setOnClickListener { loggingOut() }
         }
     }
 
+    private fun toUpdateWithData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val data2 = viewModel.getUserProfile(sharedPref.getEmail(Constant.EMAIL_USER))
+            activity?.runOnUiThread {
+                val actionToProfileUpdate =
+                    ProfileFragmentDirections.actionProfileFragmentToUpdateProfileFragment(data2)
+                findNavController().navigate(actionToProfileUpdate)
+            }
+        }
+    }
+
     private fun setTextViews() {
-        binding.apply {
-            tvName.text = args.data?.name
-            tvEmail.text = args.data?.email
-            tvPassword.text = args.data?.password
+        lifecycleScope.launch(Dispatchers.IO) {
+            val data2 = viewModel.getUserProfile(sharedPref.getEmail(Constant.EMAIL_USER))
+            activity?.runOnUiThread {
+                binding.apply {
+                    tvName.text = data2.name
+                    tvEmail.text = data2.email
+                    tvPassword.text = data2.password
+                }
+            }
         }
     }
 

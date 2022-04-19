@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
@@ -16,11 +17,9 @@ import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFact
 import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
 import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentHomeBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@DelicateCoroutinesApi
 class HomeFragment : Fragment() {
 
     private val viewModel: ChapterFiveViewModel by viewModels {
@@ -43,14 +42,19 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedPref = Helper(requireContext())
-        binding.apply {
-            tvWelcome.text =
-                getString(R.string.welcome_text, sharedPref.getName(Constant.RECENT_USER))
-            btnProfile.setOnClickListener {
-                toProfile()
+
+        getName()
+        binding.btnProfile.setOnClickListener { toProfile() }
+        doubleBackToExit()
+    }
+
+    private fun getName() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val name = viewModel.getUserName(sharedPref.getEmail(Constant.EMAIL_USER)!!)
+            activity?.runOnUiThread {
+                binding.tvWelcome.text = getString(R.string.welcome_text, name)
             }
         }
-        doubleBackToExit()
     }
 
     private fun doubleBackToExit() {
@@ -68,12 +72,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun toProfile() {
-        GlobalScope.launch {
-            val data = viewModel.getUserProfile(sharedPref.getEmail(Constant.EMAIL_USER))
-            activity?.runOnUiThread {
-                val actionToProfile = HomeFragmentDirections.actionHomeFragmentToProfileFragment(data)
-                findNavController().navigate(actionToProfile)
-            }
-        }
+        val actionToProfile = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
+        findNavController().navigate(actionToProfile)
     }
 }

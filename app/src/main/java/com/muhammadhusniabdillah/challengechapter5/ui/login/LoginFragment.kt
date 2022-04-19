@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
@@ -15,11 +16,9 @@ import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFact
 import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
 import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentLoginBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@DelicateCoroutinesApi
 class LoginFragment : Fragment() {
 
     private val viewModel: ChapterFiveViewModel by viewModels {
@@ -60,16 +59,15 @@ class LoginFragment : Fragment() {
     private fun toHome() {
         // check login entries
         if (blankInputCheck()) {
-            GlobalScope.launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 val check = viewModel.checkUserExists(
                     binding.etEmail.text.toString(),
                     binding.etPassword.text.toString()
                 )
                 if (check) {
-                    val name = viewModel.getUserName(binding.etEmail.text.toString())
                     activity?.runOnUiThread {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                        saveSession(name, binding.etEmail.text.toString(), check)
+                        saveSession(binding.etEmail.text.toString(), check)
                     }
                 } else {
                     activity?.runOnUiThread {
@@ -97,8 +95,7 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun saveSession(name: String, email: String, session: Boolean) {
-        sharedPref.putName(Constant.RECENT_USER, name)
+    private fun saveSession(email: String, session: Boolean) {
         sharedPref.putEmail(Constant.EMAIL_USER, email)
         sharedPref.putLoginStatus(Constant.IS_LOGIN, session)
     }
