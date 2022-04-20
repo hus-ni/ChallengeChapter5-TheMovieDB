@@ -1,7 +1,10 @@
 package com.muhammadhusniabdillah.challengechapter5.data.network
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Movies(
     @SerializedName("id") val id: Long,
     @SerializedName("title") val title: String,
@@ -10,4 +13,4 @@ data class Movies(
     @SerializedName("backdrop_path") val backdropPath: String,
     @SerializedName("vote_average") val rating: Float,
     @SerializedName("release_date") val releaseDate: String
-)
+) : Parcelable

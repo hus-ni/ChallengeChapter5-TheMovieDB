@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.muhammadhusniabdillah.challengechapter5">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".data.ChapterFiveApplication"
         android:allowBackup="true"

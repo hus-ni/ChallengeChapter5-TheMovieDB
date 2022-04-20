@@ -2,6 +2,7 @@ package com.muhammadhusniabdillah.challengechapter5.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.muhammadhusniabdillah.challengechapter5.data.dao.LoginDao
 import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
 
@@ -63,6 +64,7 @@ class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
     ): Boolean {
         return !(email.isBlank() || password.isBlank())
     }
+
 }
 
 class ChapterFiveViewModelFactory(private val loginDao: LoginDao) : ViewModelProvider.Factory {
