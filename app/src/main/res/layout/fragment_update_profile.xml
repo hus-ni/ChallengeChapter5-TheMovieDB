@@ -83,7 +83,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/primary_background"
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 

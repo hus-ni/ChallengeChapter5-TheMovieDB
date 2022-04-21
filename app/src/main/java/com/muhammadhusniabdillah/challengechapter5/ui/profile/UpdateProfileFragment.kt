@@ -1,10 +1,12 @@
 package com.muhammadhusniabdillah.challengechapter5.ui.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,8 +24,8 @@ class UpdateProfileFragment : Fragment() {
 
 
     private val viewModel: ChapterFiveViewModel by viewModels {
-    ChapterFiveViewModelFactory(
-        (activity?.application as ChapterFiveApplication).database.daoLogin()
+        ChapterFiveViewModelFactory(
+            (activity?.application as ChapterFiveApplication).database.daoLogin()
         )
     }
     private lateinit var binding: FragmentUpdateProfileBinding
@@ -48,6 +50,22 @@ class UpdateProfileFragment : Fragment() {
                 toProfilePage()
             }
         }
+        onBackPressed()
+    }
+
+    private fun onBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Discard Changes?")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Yes") { _, _ ->
+                    findNavController().navigate(R.id.action_updateProfileFragment_to_profileFragment)
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
 
     private fun toProfilePage() {
@@ -60,7 +78,8 @@ class UpdateProfileFragment : Fragment() {
             )
             activity?.runOnUiThread {
                 if (result != 0) {
-                    Toast.makeText(requireContext(), "Changed successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Changed successfully!", Toast.LENGTH_SHORT)
+                        .show()
                     findNavController().navigate(R.id.action_updateProfileFragment_to_profileFragment)
                 }
             }
