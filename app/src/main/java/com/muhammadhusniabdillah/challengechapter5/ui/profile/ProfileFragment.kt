@@ -41,7 +41,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTextViews()
-        sharedPref = Helper(requireContext())
+        Helper.init(requireContext())
+        sharedPref = Helper
 
         binding.apply {
             btnToUpdate.setOnClickListener { toUpdateWithData() }

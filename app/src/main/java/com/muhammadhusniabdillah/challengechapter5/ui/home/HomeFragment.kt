@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +17,9 @@ import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
 import com.muhammadhusniabdillah.challengechapter5.data.network.ApiClient
 import com.muhammadhusniabdillah.challengechapter5.data.network.Movies
-import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
 import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentHomeBinding
 import com.muhammadhusniabdillah.challengechapter5.ui.home.recycler.RecyclerAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -61,8 +57,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPref = Helper(requireContext())
 
+
+        Helper.init(requireContext())
+        sharedPref = Helper
         setWelcomeName()
         binding.apply {
             btnProfile.setOnClickListener { toProfile() }
@@ -81,11 +79,8 @@ class HomeFragment : Fragment() {
 
 
     private fun setWelcomeName() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val name = viewModel.getUserName(sharedPref.getEmail(Constant.EMAIL_USER)!!)
-            activity?.runOnUiThread {
-                binding.tvWelcome.text = getString(R.string.welcome_text, name)
-            }
+        viewModel.name.observe(viewLifecycleOwner) {
+            binding.tvWelcome.text = getString(R.string.welcome_text, viewModel.name.value)
         }
     }
 

@@ -1,14 +1,18 @@
 package com.muhammadhusniabdillah.challengechapter5.data
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.*
 import com.muhammadhusniabdillah.challengechapter5.data.dao.LoginDao
 import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
-import com.muhammadhusniabdillah.challengechapter5.data.network.Movies
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
 
 class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
+
+
+    private val sharedPref: Helper = Helper
+
+    private val _name: LiveData<String> = getUserName(sharedPref.getEmail(Constant.EMAIL_USER))
+    val name: LiveData<String> = _name
 
     // register
     fun userProfile(name: String, email: String, password: String) {
@@ -16,7 +20,7 @@ class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
         insertToDatabase(data)
     }
 
-    fun userProfile(id: Int,name: String, email: String, password: String): Int {
+    fun userProfile(id: Int, name: String, email: String, password: String): Int {
         val data = dataEntry(id, name, email, password)
         return updateData(data)
     }
@@ -43,12 +47,12 @@ class ChapterFiveViewModel(private val loginDao: LoginDao) : ViewModel() {
         return loginDao.getProfile(email)
     }
 
-    fun getUserName(email: String): String {
-       return loginDao.getName(email)
+    private fun getUserName(email: String?): LiveData<String> {
+        return loginDao.getName(email)
     }
 
     private fun updateData(data: Login): Int {
-       return loginDao.updateData(data)
+        return loginDao.updateData(data)
     }
 
     fun isInputEmpty(

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
@@ -34,6 +33,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Helper.init(requireContext())
         val loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
         binding = loginBinding
         return loginBinding.root
@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPref = Helper(requireContext())
+        sharedPref = Helper
         binding.apply {
             imgLoginLogo.setImageResource(R.drawable.ic_login_logo_tmdb)
             btnLogin.setOnClickListener { toHome() }

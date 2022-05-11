@@ -1,5 +1,6 @@
 package com.muhammadhusniabdillah.challengechapter5.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
 
@@ -19,7 +20,7 @@ interface LoginDao {
     fun getProfile(email: String?): Login
 
     @Query("Select name From Login Where email = :email")
-    fun getName(email: String): String
+    fun getName(email: String?): LiveData<String>
 
     //update
     @Update
