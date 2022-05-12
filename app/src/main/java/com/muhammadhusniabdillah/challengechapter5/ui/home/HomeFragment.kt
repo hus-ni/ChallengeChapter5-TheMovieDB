@@ -17,19 +17,19 @@ import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
 import com.muhammadhusniabdillah.challengechapter5.data.network.ApiClient
 import com.muhammadhusniabdillah.challengechapter5.data.network.Movies
-import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.DataStorePreferences
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentHomeBinding
 import com.muhammadhusniabdillah.challengechapter5.ui.home.recycler.RecyclerAdapter
 
 class HomeFragment : Fragment() {
 
+    private lateinit var pref: DataStorePreferences
     private val viewModel: ChapterFiveViewModel by viewModels {
         ChapterFiveViewModelFactory(
-            (activity?.application as ChapterFiveApplication).database.daoLogin()
+            (activity?.application as ChapterFiveApplication).database.daoLogin(), pref
         )
     }
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var sharedPref: Helper
 
     private lateinit var popular: RecyclerView
     private lateinit var popularAdapter: RecyclerAdapter
@@ -58,9 +58,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        pref = DataStorePreferences(requireContext())
 
-        Helper.init(requireContext())
-        sharedPref = Helper
         setWelcomeName()
         binding.apply {
             btnProfile.setOnClickListener { toProfile() }
@@ -79,8 +78,8 @@ class HomeFragment : Fragment() {
 
 
     private fun setWelcomeName() {
-        viewModel.name.observe(viewLifecycleOwner) {
-            binding.tvWelcome.text = getString(R.string.welcome_text, viewModel.name.value)
+        viewModel.name?.observe(viewLifecycleOwner) {
+                binding.tvWelcome.text = getString(R.string.welcome_text, viewModel.name?.value)
         }
     }
 

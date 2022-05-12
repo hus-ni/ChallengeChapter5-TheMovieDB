@@ -16,16 +16,17 @@ import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.DataStorePreferences
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentUpdateProfileBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UpdateProfileFragment : Fragment() {
 
-
+    private lateinit var pref: DataStorePreferences
     private val viewModel: ChapterFiveViewModel by viewModels {
         ChapterFiveViewModelFactory(
-            (activity?.application as ChapterFiveApplication).database.daoLogin()
+            (activity?.application as ChapterFiveApplication).database.daoLogin(), pref
         )
     }
     private lateinit var binding: FragmentUpdateProfileBinding
@@ -42,6 +43,8 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        pref = DataStorePreferences(requireContext())
 
         setEditTextValue()
 

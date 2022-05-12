@@ -13,27 +13,26 @@ import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
-import com.muhammadhusniabdillah.challengechapter5.data.preferences.Constant
-import com.muhammadhusniabdillah.challengechapter5.data.preferences.Helper
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.DataStorePreferences
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentLoginBinding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
+    private lateinit var pref: DataStorePreferences
     private val viewModel: ChapterFiveViewModel by viewModels {
         ChapterFiveViewModelFactory(
-            (activity?.application as ChapterFiveApplication).database.daoLogin()
+            (activity?.application as ChapterFiveApplication).database.daoLogin(), pref
         )
     }
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var sharedPref: Helper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Helper.init(requireContext())
         val loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
         binding = loginBinding
         return loginBinding.root
@@ -42,7 +41,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPref = Helper
+        pref = DataStorePreferences(requireContext())
+
         binding.apply {
             imgLoginLogo.setImageResource(R.drawable.ic_login_logo_tmdb)
             btnLogin.setOnClickListener { toHome() }
@@ -52,10 +52,17 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (sharedPref.getLoginStatus(Constant.IS_LOGIN)) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        var session: String?
+        lifecycleScope.launch(Dispatchers.IO) {
+            session = pref.getSession().first()
+            activity?.runOnUiThread {
+                if (session.equals(DataStorePreferences.LOGGED_IN)) {
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                }
+            }
         }
     }
+
 
     private fun toHome() {
         // check login entries
@@ -68,8 +75,9 @@ class LoginFragment : Fragment() {
                 if (check) {
                     activity?.runOnUiThread {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                        saveSession(binding.etEmail.text.toString(), check)
+                        saveEmail(binding.etEmail.text.toString())
                     }
+                    pref.saveSession(DataStorePreferences.LOGGED_IN)
                 } else {
                     activity?.runOnUiThread {
                         Toast.makeText(
@@ -78,6 +86,7 @@ class LoginFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    pref.saveSession(DataStorePreferences.NOT_LOGGED_IN)
                 }
             }
         } else {
@@ -96,8 +105,9 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun saveSession(email: String, session: Boolean) {
-        sharedPref.putEmail(Constant.EMAIL_USER, email)
-        sharedPref.putLoginStatus(Constant.IS_LOGIN, session)
+    private fun saveEmail(email: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            pref.saveEmail(email)
+        }
     }
 }

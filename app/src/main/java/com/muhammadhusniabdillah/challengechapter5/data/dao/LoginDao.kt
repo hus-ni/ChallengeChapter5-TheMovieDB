@@ -1,8 +1,9 @@
 package com.muhammadhusniabdillah.challengechapter5.data.dao
 
-import androidx.lifecycle.LiveData
+import android.net.Uri
 import androidx.room.*
 import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LoginDao {
@@ -20,10 +21,13 @@ interface LoginDao {
     fun getProfile(email: String?): Login
 
     @Query("Select name From Login Where email = :email")
-    fun getName(email: String?): LiveData<String>
+    fun getName(email: String?): Flow<String>
 
     //update
     @Update
     fun updateData(updatedData: Login): Int
-    //delete
+
+    //insert profile picture
+    @Query("Update Login Set profilePict = :imgUri Where email = :email")
+    fun updateProfilePicture(imgUri: String, email: String?)
 }

@@ -13,15 +13,17 @@ import com.muhammadhusniabdillah.challengechapter5.R
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveApplication
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModel
 import com.muhammadhusniabdillah.challengechapter5.data.ChapterFiveViewModelFactory
+import com.muhammadhusniabdillah.challengechapter5.data.preferences.DataStorePreferences
 import com.muhammadhusniabdillah.challengechapter5.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
 
+    private lateinit var pref: DataStorePreferences
     private val viewModel: ChapterFiveViewModel by viewModels {
         ChapterFiveViewModelFactory(
-            (activity?.application as ChapterFiveApplication).database.daoLogin()
+            (activity?.application as ChapterFiveApplication).database.daoLogin(), pref
         )
     }
     private lateinit var binding: FragmentRegisterBinding
@@ -37,6 +39,7 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pref = DataStorePreferences(requireContext())
 
         binding.btnRegister.setOnClickListener {
             toLogin()
