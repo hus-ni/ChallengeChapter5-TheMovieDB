@@ -124,9 +124,8 @@ class ProfileFragment : Fragment() {
             val data2 = viewModel.getUserProfile(pref.getEmail().first())
             activity?.runOnUiThread {
                 binding.apply {
-                    tvName.text = data2.name
-                    tvEmail.text = data2.email
-                    tvPassword.text = data2.password
+                    tvName.setText(data2.name)
+                    tvEmail.setText(data2.email)
                 }
             }
         }

@@ -29,46 +29,69 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.15" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_profile_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:textAlignment="center"
-                android:textColor="@color/primary_background"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_email"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/hint_name"
+                android:textColorHint="@color/primary_background"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/secondary_background"
+                app:hintTextColor="@color/primary_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/guide_profile"
-                tools:text="Muhammad Husni Abdillah" />
+                app:startIconDrawable="@drawable/ic_user"
+                app:startIconTint="@color/primary_background">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_email"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:textColor="@color/primary_background"
+                    android:textCursorDrawable="@null"
+                    tools:text="Muhammad Husni Abdillah" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_profile_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:textAlignment="center"
-                android:textColor="@color/primary_background"
-                android:textSize="24sp"
+                android:hint="@string/hint_email"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColorHint="@color/primary_background"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/secondary_background"
+                app:hintTextColor="@color/primary_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_name"
-                tools:text="husni.and4@binar.ac.id" />
+                app:layout_constraintTop_toBottomOf="@id/til_profile_name"
+                app:startIconDrawable="@drawable/ic_email"
+                app:startIconTint="@color/primary_background">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textAlignment="center"
-                android:textColor="@color/primary_background"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_email"
-                tools:text="Password" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:textColor="@color/primary_background"
+                    android:textCursorDrawable="@null"
+                    tools:text="husni.and4@binar.ac.id"  />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_btnupdate"
@@ -130,8 +153,8 @@
             android:layout_height="128dp"
             android:clickable="true"
             android:scaleType="fitCenter"
-            tools:src="@tools:sample/avatars"
-            android:src="@drawable/ic_user"/>
+            android:src="@drawable/ic_user"
+            tools:src="@tools:sample/avatars" />
 
     </com.google.android.material.card.MaterialCardView>
 
