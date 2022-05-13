@@ -1,6 +1,5 @@
 package com.muhammadhusniabdillah.challengechapter5.data.dao
 
-import android.net.Uri
 import androidx.room.*
 import com.muhammadhusniabdillah.challengechapter5.data.entity.Login
 import kotlinx.coroutines.flow.Flow
@@ -30,4 +29,22 @@ interface LoginDao {
     //insert profile picture
     @Query("Update Login Set profilePict = :imgUri Where email = :email")
     fun updateProfilePicture(imgUri: String, email: String?)
+
+    //taking the path
+    @Query( "Select profilePict From Login Where email = :email")
+    fun getPicturesPath(email: String?): Flow<String>
+
 }
+
+
+// Trash bin Trash bin Trash bin
+//@Update(entity = Login::class)
+//fun updateNameEmailPassword(obj: NameEmailPassword): Int
+//
+//@Entity
+//class NameEmailPassword (
+//    val name: String,
+//    val email: String,
+//    val password: String
+//)
+

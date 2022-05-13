@@ -11,7 +11,17 @@ class ChapterFiveViewModel(private val loginDao: LoginDao, pref: DataStorePrefer
     ViewModel() {
 
     private val _name: LiveData<String>? = nameValue(pref)
-    val name: LiveData<String>? = _name
+    val name = _name
+
+    private val _picture: LiveData<String>? = picturePath(pref)
+    val picture = _picture
+
+
+    private fun picturePath(pref: DataStorePreferences): LiveData<String>? {
+        var temp: LiveData<String>? = null
+        viewModelScope.launch { temp = getPictures(pref.getEmail().first()) }
+        return temp
+    }
 
     // register
     fun userProfile(name: String, email: String, password: String) {
@@ -20,18 +30,18 @@ class ChapterFiveViewModel(private val loginDao: LoginDao, pref: DataStorePrefer
     }
 
     //update
-    fun userProfile(id: Int, name: String, email: String, password: String): Int {
-        val data = dataEntry(id, name, email, password)
+    fun userProfile(id: Int, name: String, email: String, password: String, path: String?): Int {
+        val data = dataEntry(id, name, email, password, path)
         return updateData(data)
     }
 
-    private fun dataEntry(id: Int, name: String, email: String, password: String): Login {
-        return Login(id, name, email, password, profilePict = null)
+    private fun dataEntry(id: Int, name: String, email: String, password: String, path: String?): Login {
+        return Login(id, name, email, password, path)
     }
 
     private fun dataEntry(name: String, email: String, password: String): Login {
         return Login(
-            id = null, name, email, password, profilePict = null)
+            id = null, name, email, password, profilePict = picture.toString())
     }
 
     private fun insertToDatabase(data: Login) {
@@ -74,6 +84,14 @@ class ChapterFiveViewModel(private val loginDao: LoginDao, pref: DataStorePrefer
         password: String
     ): Boolean {
         return !(email.isBlank() || password.isBlank())
+    }
+
+    fun updateProfilePics(imgUri: String, email: String?) {
+        loginDao.updateProfilePicture(imgUri, email)
+    }
+
+    private fun getPictures(email: String?): LiveData<String> {
+        return loginDao.getPicturesPath(email).asLiveData()
     }
 
 }

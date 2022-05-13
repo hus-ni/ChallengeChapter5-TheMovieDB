@@ -77,7 +77,8 @@ class UpdateProfileFragment : Fragment() {
                 args.data2?.id!!,
                 binding.etUpdateName.text.toString(),
                 binding.etUpdateEmail.text.toString(),
-                binding.etUpdatePassword.text.toString()
+                binding.etUpdatePassword.text.toString(),
+                args.data2?.profilePict
             )
             activity?.runOnUiThread {
                 if (result != 0) {

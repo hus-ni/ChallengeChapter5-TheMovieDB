@@ -76,7 +76,6 @@ class HomeFragment : Fragment() {
         doubleBackToExit()
     }
 
-
     private fun setWelcomeName() {
         viewModel.name?.observe(viewLifecycleOwner) {
                 binding.tvWelcome.text = getString(R.string.welcome_text, viewModel.name?.value)

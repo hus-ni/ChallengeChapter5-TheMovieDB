@@ -126,10 +126,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profile_pics"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:tint="@color/secondary_background"
-            android:src="@drawable/ic_user" />
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            tools:src="@tools:sample/avatars"
+            android:src="@drawable/ic_user"/>
 
     </com.google.android.material.card.MaterialCardView>
 
