@@ -1,5 +1,9 @@
 package com.muhammadhusniabdillah.challengechapter5.data.network
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -8,15 +12,32 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    private val apiEndPoint: ApiServices
+    private val apiServices: ApiServices
 
-    init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    fun getInstance(context: Context): ApiServices {
 
-        apiEndPoint = retrofit.create(ApiServices::class.java)
+        val apiEndPoint: ApiServices by lazy {
+            val client = OkHttpClient.Builder()
+                .addInterceptor(
+                    ChuckerInterceptor.Builder(context)
+                        .collector(ChuckerCollector(context))
+                        .maxContentLength(250000L)
+                        .redactHeaders(emptySet())
+                        .alwaysReadResponseBody(false)
+                        .build()
+                )
+                .build()
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.themoviedb.org/3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            retrofit.create(
+                ApiServices::
+                class.java
+            )
+        }
+        return apiEndPoint
     }
 
     fun getPopularMovies(
@@ -24,7 +45,7 @@ object ApiClient {
         onSuccess: (movies: List<Movies>) -> Unit,
         onError: () -> Unit
     ) {
-        apiEndPoint.getPopularMovies(page = page)
+        apiServices.getPopularMovies(page = page)
             .enqueue(object : Callback<GetMoviesResponse> {
                 override fun onResponse(
                     call: Call<GetMoviesResponse>,
@@ -54,7 +75,7 @@ object ApiClient {
         onSuccess: (movies: List<Movies>) -> Unit,
         onError: () -> Unit
     ) {
-        apiEndPoint.getTopRatedMovies(page = page)
+        apiServices.getTopRatedMovies(page = page)
             .enqueue(object : Callback<GetMoviesResponse> {
                 override fun onResponse(
                     call: Call<GetMoviesResponse>,
@@ -84,7 +105,7 @@ object ApiClient {
         onSuccess: (movies: List<Movies>) -> Unit,
         onError: () -> Unit
     ) {
-        apiEndPoint.getUpcomingMovies(page = page)
+        apiServices.getUpcomingMovies(page = page)
             .enqueue(object : Callback<GetMoviesResponse> {
                 override fun onResponse(
                     call: Call<GetMoviesResponse>,

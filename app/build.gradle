@@ -90,4 +90,8 @@ dependencies {
     //image picker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
+    //chucker
+    implementation 'com.github.chuckerteam.chucker:library:3.5.2'
+    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
+
 }
